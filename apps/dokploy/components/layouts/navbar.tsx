@@ -10,9 +10,9 @@ import {
 import { cn } from "@/lib/utils";
 import { api } from "@/utils/api";
 import { HeartIcon } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { Logo } from "../shared/logo";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { buttonVariants } from "../ui/button";
 
@@ -37,23 +37,19 @@ export const Navbar = () => {
 						href="/dashboard/projects"
 						className={cn("flex flex-row items-center gap-2")}
 					>
-						<Logo />
+						<Image
+							src="/TomCoinLogo.svg"
+							alt="TOM3 Logo"
+							width={32}
+							height={32}
+							priority
+						/>
 						<span className="text-sm font-semibold text-primary max-sm:hidden">
-							Dokploy
+							TOM3 Console
 						</span>
 					</Link>
 				</div>
-				<Link
-					className={buttonVariants({
-						variant: "outline",
-						className: " flex items-center gap-2 !rounded-full",
-					})}
-					href="https://opencollective.com/dokploy"
-					target="_blank"
-				>
-					<span className="text-sm font-semibold">Support </span>
-					<HeartIcon className="size-4 text-red-500 fill-red-600 animate-heartbeat " />
-				</Link>
+
 				<ul
 					className="ml-auto flex h-12 max-w-fit flex-row flex-nowrap items-center gap-0 data-[justify=end]:flex-grow data-[justify=start]:flex-grow data-[justify=end]:basis-0 data-[justify=start]:basis-0 data-[justify=start]:justify-start data-[justify=end]:justify-end data-[justify=center]:justify-center"
 					data-justify="end"

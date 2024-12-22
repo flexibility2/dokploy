@@ -39,7 +39,12 @@ const MyApp = ({
         }
       `}</style>
 			<Head>
-				<title>Dokploy</title>
+				<title>TOM3 Console</title>
+				<meta
+					name="description"
+					content="TOM3 Console - Your Modern Management Platform"
+				/>
+				<link rel="icon" href="/favicon.ico" />
 			</Head>
 			{process.env.NEXT_PUBLIC_UMAMI_HOST &&
 				process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID && (

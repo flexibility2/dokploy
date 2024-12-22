@@ -13,16 +13,16 @@ export const DashboardLayout = ({ children, tab, metaName }: Props) => {
 		<>
 			<Head>
 				<title>
-					{metaName ?? tab.charAt(0).toUpperCase() + tab.slice(1)} | Dokploy
+					{metaName ? `${metaName} | TOM3 Console` : "TOM3 Console"}
 				</title>
 			</Head>
 			<div>
 				<div
-					className="bg-radial relative flex flex-col bg-background min-h-screen w-full"
+					className="relative flex min-h-screen w-full flex-col bg-gradient-to-b from-background to-background/80"
 					id="app-container"
 				>
 					<Navbar />
-					<main className="pt-6 flex w-full flex-col items-center">
+					<main className="pt-8 flex w-full flex-col items-center">
 						<div className="w-full max-w-8xl px-4 lg:px-8">
 							<NavigationTabs tab={tab}>{children}</NavigationTabs>
 						</div>

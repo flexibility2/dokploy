@@ -28,7 +28,7 @@ export const sendBuildErrorNotifications = async ({
 	adminId,
 }: Props) => {
 	const date = new Date();
-	const unixDate = ~~((Number(date)) / 1000);
+	const unixDate = ~~(Number(date) / 1000);
 	const notificationList = await db.query.notifications.findMany({
 		where: and(
 			eq(notifications.appBuildError, true),

@@ -255,7 +255,7 @@ const Project = (
 											`/dashboard/project/${projectId}/services/${service.type}/${service.id}`,
 										);
 									}}
-									className="group relative cursor-pointer bg-transparent transition-colors hover:bg-card h-fit"
+									className="group relative cursor-pointer bg-card/50 backdrop-blur-sm transition-all hover:bg-card hover:shadow-lg hover:-translate-y-0.5 duration-200 h-fit border border-border/50"
 								>
 									<div className="absolute -right-1 -top-2">
 										<StatusTooltip status={service.status} />

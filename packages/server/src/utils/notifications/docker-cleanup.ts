@@ -15,7 +15,7 @@ export const sendDockerCleanupNotifications = async (
 	message = "Docker cleanup for dokploy",
 ) => {
 	const date = new Date();
-	const unixDate = ~~((Number(date)) / 1000);
+	const unixDate = ~~(Number(date) / 1000);
 	const notificationList = await db.query.notifications.findMany({
 		where: and(
 			eq(notifications.dockerCleanup, true),

@@ -12,7 +12,7 @@ import {
 
 export const sendDokployRestartNotifications = async () => {
 	const date = new Date();
-	const unixDate = ~~((Number(date)) / 1000);
+	const unixDate = ~~(Number(date) / 1000);
 	const notificationList = await db.query.notifications.findMany({
 		where: eq(notifications.dokployRestart, true),
 		with: {

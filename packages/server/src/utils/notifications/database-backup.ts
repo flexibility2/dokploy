@@ -26,7 +26,7 @@ export const sendDatabaseBackupNotifications = async ({
 	errorMessage?: string;
 }) => {
 	const date = new Date();
-	const unixDate = ~~((Number(date)) / 1000);
+	const unixDate = ~~(Number(date) / 1000);
 	const notificationList = await db.query.notifications.findMany({
 		where: and(
 			eq(notifications.databaseBackup, true),
