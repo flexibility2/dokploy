@@ -132,7 +132,7 @@ const Service = (
 											: "destructive"
 								}
 							>
-								{data?.server?.name || "Dokploy Server"}
+								{data?.server?.name || "TOM3 Server"}
 							</Badge>
 							{data?.server?.serverStatus === "inactive" && (
 								<TooltipProvider delayDuration={0}>

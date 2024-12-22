@@ -28,7 +28,7 @@ import { type ReactElement, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
-
+import Image from "next/image";
 const loginSchema = z.object({
 	email: z
 		.string()
@@ -103,14 +103,18 @@ export default function Home({ IS_CLOUD }: Props) {
 	return (
 		<div className="flex  h-screen w-full items-center justify-center ">
 			<div className="flex flex-col items-center gap-4 w-full">
-				<Link
-					href="https://dokploy.com"
-					target="_blank"
+				<div
 					className="flex flex-row items-center gap-2"
 				>
-					<Logo />
-					<span className="font-medium text-sm">Dokploy</span>
-				</Link>
+						<Image
+							src="/TomCoinLogo.svg"
+							alt="TOM3 Logo"
+							width={32}
+							height={32}
+							priority
+						/>
+					<span className="font-medium text-sm">TOM3 Console</span>
+				</div>
 				<CardTitle className="text-2xl font-bold">Sign in</CardTitle>
 				<CardDescription>
 					Enter your credentials to access your account
