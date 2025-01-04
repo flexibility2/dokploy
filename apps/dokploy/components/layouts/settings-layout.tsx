@@ -67,12 +67,12 @@ export const SettingsLayout = ({ children }: Props) => {
 										icon: GitBranch,
 										href: "/dashboard/settings/git-providers",
 									},
-									{
-										title: "Users",
-										label: "",
-										icon: Users,
-										href: "/dashboard/settings/users",
-									},
+									// {
+									// 	title: "Users",
+									// 	label: "",
+									// 	icon: Users,
+									// 	href: "/dashboard/settings/users",
+									// },
 
 									{
 										title: "Registry",

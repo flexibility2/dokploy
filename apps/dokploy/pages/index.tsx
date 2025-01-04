@@ -182,7 +182,7 @@ export default function Home({ IS_CLOUD }: Props) {
 
 						<div className="flex flex-row justify-between flex-wrap">
 							<div className="mt-4 text-center text-sm flex flex-row justify-center gap-2">
-								{IS_CLOUD && (
+								{true && (
 									<Link
 										className="hover:underline text-muted-foreground"
 										href="/register"
@@ -192,7 +192,7 @@ export default function Home({ IS_CLOUD }: Props) {
 								)}
 							</div>
 
-							<div className="mt-4 text-sm flex flex-row justify-center gap-2">
+							{/* <div className="mt-4 text-sm flex flex-row justify-center gap-2">
 								{IS_CLOUD ? (
 									<Link
 										className="hover:underline text-muted-foreground"
@@ -209,7 +209,7 @@ export default function Home({ IS_CLOUD }: Props) {
 										Lost your password?
 									</Link>
 								)}
-							</div>
+							</div> */}
 						</div>
 						<div className="p-2" />
 					</CardContent>

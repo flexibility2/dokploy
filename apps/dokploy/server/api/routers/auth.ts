@@ -47,25 +47,25 @@ export const authRouter = createTRPCRouter({
 		.input(apiCreateAdmin)
 		.mutation(async ({ ctx, input }) => {
 			try {
-				if (!IS_CLOUD) {
-					const admin = await db.query.admins.findFirst({});
-					if (admin) {
-						throw new TRPCError({
-							code: "BAD_REQUEST",
-							message: "Admin already exists",
-						});
-					}
-				}
+				// if (!IS_CLOUD) {
+				// 	const admin = await db.query.admins.findFirst({});
+				// 	if (admin) {
+				// 		throw new TRPCError({
+				// 			code: "BAD_REQUEST",
+				// 			message: "Admin already exists",
+				// 		});
+				// 	}
+				// }
 				const newAdmin = await createAdmin(input);
 
-				if (IS_CLOUD) {
-					await sendDiscordNotificationWelcome(newAdmin);
-					await sendVerificationEmail(newAdmin.id);
-					return {
-						status: "success",
-						type: "cloud",
-					};
-				}
+				// if (IS_CLOUD) {
+				// 	await sendDiscordNotificationWelcome(newAdmin);
+				// 	await sendVerificationEmail(newAdmin.id);
+				// 	return {
+				// 		status: "success",
+				// 		type: "cloud",
+				// 	};
+				// }
 				const session = await lucia.createSession(newAdmin.id || "", {});
 				ctx.res.appendHeader(
 					"Set-Cookie",

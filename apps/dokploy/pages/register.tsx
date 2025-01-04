@@ -27,7 +27,7 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
-
+import Image from "next/image";
 const registerSchema = z
 	.object({
 		email: z
@@ -108,21 +108,27 @@ const Register = ({ isCloud }: Props) => {
 		<div>
 			<div className="flex  h-screen w-full items-center justify-center ">
 				<div className="flex flex-col items-center gap-4 w-full">
-					<Link
-						href="https://dokploy.com"
-						target="_blank"
-						className="flex flex-row items-center gap-2"
-					>
-						<Logo />
-						<span className="font-medium text-sm">Dokploy</span>
-					</Link>
+
+				<div
+					className="flex flex-row items-center gap-2"
+				>
+						<Image
+							src="/TomCoinLogo.svg"
+							alt="TOM3 Logo"
+							width={32}
+							height={32}
+							priority
+						/>
+					<span className="font-medium text-sm">TOM3 Console</span>
+				</div>
+					
 
 					<CardTitle className="text-2xl font-bold">
-						{isCloud ? "Create an account" : "Setup the server"}
+						{"Sign up"}
 					</CardTitle>
 					<CardDescription>
 						Enter your email and password to{" "}
-						{isCloud ? "create an account" : "setup the server"}
+						{"Sign up"}
 					</CardDescription>
 					<Card className="mx-auto w-full max-w-lg bg-transparent">
 						<div className="p-3" />
@@ -156,7 +162,7 @@ const Register = ({ isCloud }: Props) => {
 												<FormItem>
 													<FormLabel>Email</FormLabel>
 													<FormControl>
-														<Input placeholder="email@dokploy.com" {...field} />
+														<Input placeholder="email@tom3.com" {...field} />
 													</FormControl>
 													<FormMessage />
 												</FormItem>
@@ -209,7 +215,7 @@ const Register = ({ isCloud }: Props) => {
 								</form>
 							</Form>
 							<div className="flex flex-row justify-between flex-wrap">
-								{isCloud && (
+								{true  && (
 									<div className="mt-4 text-center text-sm flex gap-2">
 										Already have account?
 										<Link className="underline" href="/">
@@ -218,16 +224,16 @@ const Register = ({ isCloud }: Props) => {
 									</div>
 								)}
 
-								<div className="mt-4 text-center text-sm flex flex-row justify-center gap-2">
+								{/* <div className="mt-4 text-center text-sm flex flex-row justify-center gap-2">
 									Need help?
 									<Link
 										className="underline"
-										href="https://dokploy.com"
+										href=""
 										target="_blank"
 									>
 										Contact us
 									</Link>
-								</div>
+								</div> */}
 							</div>
 						</CardContent>
 					</Card>
@@ -239,7 +245,7 @@ const Register = ({ isCloud }: Props) => {
 
 export default Register;
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-	if (IS_CLOUD) {
+	if (true) {
 		const { user } = await validateRequest(context.req, context.res);
 
 		if (user) {
@@ -252,23 +258,23 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 		}
 		return {
 			props: {
-				isCloud: true,
+				isCloud: IS_CLOUD,
 			},
 		};
 	}
-	const hasAdmin = await isAdminPresent();
+	// const hasAdmin = await isAdminPresent();
 
-	if (hasAdmin) {
-		return {
-			redirect: {
-				permanent: false,
-				destination: "/",
-			},
-		};
-	}
-	return {
-		props: {
-			isCloud: false,
-		},
-	};
+	// if (hasAdmin) {
+	// 	return {
+	// 		redirect: {
+	// 			permanent: false,
+	// 			destination: "/",
+	// 		},
+	// 	};
+	// }
+	// return {
+	// 	props: {
+	// 		isCloud: false,
+	// 	},
+	// };
 }
