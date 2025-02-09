@@ -73,7 +73,7 @@ export const Navbar = () => {
             <DropdownMenuContent className="w-56" align="end">
               <DropdownMenuLabel className="flex flex-col">
                 My Account
-                <span className="text-xs font-normal text-muted-foreground">
+                <span className="text-xs font-normal text-muted-foreground truncate">
                   {data?.email}
                 </span>
               </DropdownMenuLabel>

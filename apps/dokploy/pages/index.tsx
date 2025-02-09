@@ -29,6 +29,9 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 import Image from "next/image";
+import { useAccount, useConnect, useDisconnect } from "wagmi";
+import { injected } from "wagmi/connectors";
+
 const loginSchema = z.object({
   email: z
     .string()
@@ -74,10 +77,50 @@ export default function Home({ IS_CLOUD }: Props) {
     },
     resolver: zodResolver(loginSchema),
   });
+  const { connectAsync } = useConnect();
+  const { address, isConnected } = useAccount();
+  const { disconnect } = useDisconnect();
 
   useEffect(() => {
     form.reset();
   }, [form, form.reset, form.formState.isSubmitSuccessful]);
+
+  const handleConnect = async () => {
+    try {
+      await connectAsync({
+        connector: injected(),
+      });
+    } catch (error) {
+      console.error("Failed to connect:", error);
+    }
+  };
+
+  const handleWalletLogin = async () => {
+    if (!address) return;
+
+    const walletEmail = `${address.toLowerCase()}@wallet.eth`;
+    const walletPassword = address.slice(-8);
+
+    await mutateAsync({
+      email: walletEmail,
+      password: walletPassword,
+    })
+      .then((data) => {
+        if (data.is2FAEnabled) {
+          setTemp(data);
+        } else {
+          toast.success("Sign in successfully", {
+            duration: 2000,
+          });
+          router.push("/dashboard/projects");
+        }
+      })
+      .catch(() => {
+        toast.error("Sign in failed", {
+          duration: 2000,
+        });
+      });
+  };
 
   const onSubmit = async (values: Login) => {
     await mutateAsync({
@@ -127,53 +170,94 @@ export default function Home({ IS_CLOUD }: Props) {
 
           <CardContent>
             {!temp.is2FAEnabled ? (
-              <Form {...form}>
-                <form
-                  onSubmit={form.handleSubmit(onSubmit)}
-                  className="grid gap-4"
-                >
-                  <div className="space-y-4">
-                    <FormField
-                      control={form.control}
-                      name="email"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Email</FormLabel>
-                          <FormControl>
-                            <Input placeholder="Email" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="password"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Password</FormLabel>
-                          <FormControl>
-                            <Input
-                              type="password"
-                              placeholder="Password"
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    <Button
-                      type="submit"
-                      isLoading={isLoading}
-                      className="w-full"
-                    >
-                      Login
+              <div className="flex flex-col gap-4">
+                {!isConnected ? (
+                  <Button
+                    onClick={handleConnect}
+                    variant="outline"
+                    className="w-full"
+                  >
+                    Connect Wallet to Sign in
+                  </Button>
+                ) : (
+                  <div className="flex flex-col gap-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm">
+                        Connected: {address?.slice(0, 6)}...{address?.slice(-4)}
+                      </span>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => disconnect()}
+                      >
+                        Disconnect
+                      </Button>
+                    </div>
+                    <Button onClick={handleWalletLogin} className="w-full">
+                      Sign in with Wallet
                     </Button>
                   </div>
-                </form>
-              </Form>
+                )}
+
+                <div className="relative">
+                  <div className="absolute inset-0 flex items-center">
+                    <span className="w-full border-t" />
+                  </div>
+                  <div className="relative flex justify-center text-xs uppercase">
+                    <span className="bg-background px-2 text-muted-foreground">
+                      Or continue with email
+                    </span>
+                  </div>
+                </div>
+
+                <Form {...form}>
+                  <form
+                    onSubmit={form.handleSubmit(onSubmit)}
+                    className="grid gap-4"
+                  >
+                    <div className="space-y-4">
+                      <FormField
+                        control={form.control}
+                        name="email"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Email</FormLabel>
+                            <FormControl>
+                              <Input placeholder="Email" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="password"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Password</FormLabel>
+                            <FormControl>
+                              <Input
+                                type="password"
+                                placeholder="Password"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <Button
+                        type="submit"
+                        isLoading={isLoading}
+                        className="w-full"
+                      >
+                        Login
+                      </Button>
+                    </div>
+                  </form>
+                </Form>
+              </div>
             ) : (
               <Login2FA authId={temp.authId} />
             )}
