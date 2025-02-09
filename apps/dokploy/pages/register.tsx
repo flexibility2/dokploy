@@ -148,7 +148,7 @@ const Register = ({ isCloud }: Props) => {
         <div className="flex flex-col items-center gap-4 w-full">
           <div className="flex flex-row items-center gap-2">
             <Image
-              src="/TomCoinLogo.svg"
+              src="/TomCoinLogoV2.svg"
               alt="TOM3 Logo"
               width={32}
               height={32}

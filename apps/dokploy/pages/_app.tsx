@@ -65,7 +65,7 @@ const MyApp = ({
           name="description"
           content="TOM3 Console - Your Modern Management Platform"
         />
-        <link rel="icon" href="/TomCoinLogo.svg" type="image/svg+xml" />
+        <link rel="icon" href="/TomCoinLogoV2.svg" type="image/svg+xml" />
       </Head>
       {process.env.NEXT_PUBLIC_UMAMI_HOST &&
         process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID && (
