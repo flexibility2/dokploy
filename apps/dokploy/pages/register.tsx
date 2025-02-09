@@ -224,6 +224,7 @@ const Register = ({ isCloud }: Props) => {
                   <form
                     onSubmit={form.handleSubmit(onSubmit)}
                     className="grid gap-4"
+                    autoComplete="off"
                   >
                     <div className="space-y-4">
                       <FormField
@@ -233,7 +234,11 @@ const Register = ({ isCloud }: Props) => {
                           <FormItem>
                             <FormLabel>Email</FormLabel>
                             <FormControl>
-                              <Input placeholder="email@tom3.com" {...field} />
+                              <Input
+                                placeholder="email@tom3.com"
+                                autoComplete="off"
+                                {...field}
+                              />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -249,6 +254,7 @@ const Register = ({ isCloud }: Props) => {
                               <Input
                                 type="password"
                                 placeholder="Password"
+                                autoComplete="new-password"
                                 {...field}
                               />
                             </FormControl>
@@ -267,6 +273,7 @@ const Register = ({ isCloud }: Props) => {
                               <Input
                                 type="password"
                                 placeholder="Password"
+                                autoComplete="new-password"
                                 {...field}
                               />
                             </FormControl>

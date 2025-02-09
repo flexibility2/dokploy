@@ -214,6 +214,7 @@ export default function Home({ IS_CLOUD }: Props) {
                   <form
                     onSubmit={form.handleSubmit(onSubmit)}
                     className="grid gap-4"
+                    autoComplete="off"
                   >
                     <div className="space-y-4">
                       <FormField
@@ -223,7 +224,11 @@ export default function Home({ IS_CLOUD }: Props) {
                           <FormItem>
                             <FormLabel>Email</FormLabel>
                             <FormControl>
-                              <Input placeholder="Email" {...field} />
+                              <Input
+                                placeholder="Email"
+                                autoComplete="off"
+                                {...field}
+                              />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -239,6 +244,7 @@ export default function Home({ IS_CLOUD }: Props) {
                               <Input
                                 type="password"
                                 placeholder="Password"
+                                autoComplete="new-password"
                                 {...field}
                               />
                             </FormControl>
