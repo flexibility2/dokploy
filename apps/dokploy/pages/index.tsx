@@ -34,6 +34,8 @@ import { injected } from "wagmi/connectors";
 import { motion, AnimatePresence } from "framer-motion";
 import { BackgroundBeams } from "@/components/ui/background-beams";
 import { Sparkles } from "lucide-react";
+import { TextScramble } from "@/components/ui/text-scramble";
+import { FloatingElements } from "@/components/ui/floating-elements";
 
 const loginSchema = z.object({
   email: z
@@ -149,6 +151,7 @@ export default function Home({ IS_CLOUD }: Props) {
   return (
     <div className="relative flex min-h-screen w-full items-center justify-center overflow-hidden bg-background/70 antialiased">
       <BackgroundBeams />
+      <FloatingElements />
 
       <div className="absolute inset-0 w-full h-full bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_at_center,white,transparent_75%)] pointer-events-none" />
 
@@ -168,14 +171,14 @@ export default function Home({ IS_CLOUD }: Props) {
           }}
           className="flex flex-col items-center gap-2"
         >
-          <div className="relative">
+          <div className="relative group">
             <Image
               src="/TomCoinLogoV2.svg"
               alt="TOM3 Logo"
-              width={48}
-              height={48}
+              width={64}
+              height={64}
               priority
-              className="drop-shadow-lg"
+              className="drop-shadow-lg transition-transform duration-300 group-hover:scale-110"
             />
             <motion.div
               animate={{
@@ -190,72 +193,112 @@ export default function Home({ IS_CLOUD }: Props) {
               className="absolute -top-1 -right-1 w-3 h-3 bg-primary rounded-full"
             />
           </div>
-          <span className="font-medium text-lg bg-clip-text text-transparent bg-gradient-to-r from-gray-400 via-gray-600 to-gray-400">
-            TOM3 Console
-          </span>
+          <motion.div whileHover={{ scale: 1.05 }} className="relative">
+            <span className="font-medium text-xl bg-clip-text text-transparent bg-gradient-to-r from-gray-400 via-gray-600 to-gray-400">
+              TOM3 Console
+            </span>
+          </motion.div>
         </motion.div>
 
-        <div className="space-y-2 text-center">
+        <div className="space-y-4 text-center max-w-2xl">
           <motion.h1
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary via-primary/80 to-primary/60"
+            className="text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary via-primary/80 to-primary/60"
           >
-            Welcome Back
+            The Future of Web3
           </motion.h1>
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
-            className="text-muted-foreground max-w-sm mx-auto"
+            className="text-lg text-muted-foreground max-w-lg mx-auto leading-relaxed"
           >
-            Your gateway to seamless blockchain interactions and decentralized
-            management
+            Experience the next generation of blockchain interaction. Seamlessly
+            manage your digital assets with enterprise-grade security and
+            intuitive controls.
           </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+            className="flex gap-4 justify-center pt-4"
+          >
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <motion.div
+                animate={{ scale: [1, 1.2, 1] }}
+                transition={{ duration: 2, repeat: Infinity }}
+                className="w-2 h-2 rounded-full bg-green-500"
+              />
+              <span>1000+ Active Users</span>
+            </div>
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <motion.div
+                animate={{ scale: [1, 1.2, 1] }}
+                transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
+                className="w-2 h-2 rounded-full bg-blue-500"
+              />
+              <span>99.9% Uptime</span>
+            </div>
+          </motion.div>
         </div>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
-          className="w-full max-w-md"
+          className="w-full max-w-md relative"
         >
-          <Card className="backdrop-blur-sm bg-background/50 border border-primary/10 shadow-lg">
-            <CardContent className="pt-6">
+          <div className="absolute -inset-0.5 bg-gradient-to-r from-primary/30 to-blue-500/30 rounded-lg blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-tilt" />
+
+          <Card className="relative backdrop-blur-sm bg-background/95 border-0 shadow-2xl">
+            <CardContent className="p-6">
               {!temp.is2FAEnabled ? (
-                <div className="flex flex-col gap-4">
+                <div className="flex flex-col gap-6">
                   {!isConnected ? (
                     <motion.div
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
+                      className="pt-2"
                     >
                       <Button
                         onClick={handleConnect}
                         variant="outline"
-                        className="w-full relative overflow-hidden group"
+                        className="w-full relative h-12 overflow-hidden group bg-background/50"
                       >
-                        <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-primary/10 opacity-0 group-hover:opacity-100 transition-opacity" />
-                        <Sparkles className="mr-2 h-4 w-4" />
-                        Connect Wallet to Sign in
+                        <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-primary/20 to-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                        <div className="relative flex items-center justify-center gap-2">
+                          <Sparkles className="h-5 w-5 text-primary" />
+                          <span className="font-medium">
+                            Connect Wallet to Sign in
+                          </span>
+                        </div>
                       </Button>
                     </motion.div>
                   ) : (
-                    <div className="flex flex-col gap-2">
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm">
-                          Connected: {address?.slice(0, 6)}...
-                          {address?.slice(-4)}
-                        </span>
+                    <div className="flex flex-col gap-3 pt-2">
+                      <div className="flex items-center justify-between p-3 rounded-lg bg-muted/40">
+                        <div className="flex items-center gap-2">
+                          <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
+                          <span className="text-sm font-medium">
+                            {address?.slice(0, 6)}...{address?.slice(-4)}
+                          </span>
+                        </div>
                         <Button
                           variant="ghost"
                           size="sm"
                           onClick={() => disconnect()}
+                          className="h-8 px-3 text-muted-foreground hover:text-foreground"
                         >
                           Disconnect
                         </Button>
                       </div>
-                      <Button onClick={handleWalletLogin} className="w-full">
+                      <Button
+                        onClick={handleWalletLogin}
+                        className="w-full h-12 font-medium"
+                      >
                         Sign in with Wallet
                       </Button>
                     </div>
@@ -263,10 +306,10 @@ export default function Home({ IS_CLOUD }: Props) {
 
                   <div className="relative">
                     <div className="absolute inset-0 flex items-center">
-                      <span className="w-full border-t" />
+                      <span className="w-full border-t border-muted" />
                     </div>
                     <div className="relative flex justify-center text-xs uppercase">
-                      <span className="bg-background px-2 text-muted-foreground">
+                      <span className="bg-background px-4 text-muted-foreground">
                         Or continue with email
                       </span>
                     </div>
@@ -275,77 +318,76 @@ export default function Home({ IS_CLOUD }: Props) {
                   <Form {...form}>
                     <form
                       onSubmit={form.handleSubmit(onSubmit)}
-                      className="grid gap-4"
+                      className="space-y-4"
                       autoComplete="off"
                     >
-                      <div className="space-y-4">
-                        <FormField
-                          control={form.control}
-                          name="email"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Email</FormLabel>
-                              <FormControl>
-                                <Input
-                                  placeholder="Email"
-                                  autoComplete="off"
-                                  {...field}
-                                />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                        <FormField
-                          control={form.control}
-                          name="password"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Password</FormLabel>
-                              <FormControl>
-                                <Input
-                                  type="password"
-                                  placeholder="Password"
-                                  autoComplete="new-password"
-                                  {...field}
-                                />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
+                      <FormField
+                        control={form.control}
+                        name="email"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-muted-foreground">
+                              Email
+                            </FormLabel>
+                            <FormControl>
+                              <Input
+                                placeholder="name@example.com"
+                                className="h-12"
+                                autoComplete="off"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="password"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-muted-foreground">
+                              Password
+                            </FormLabel>
+                            <FormControl>
+                              <Input
+                                type="password"
+                                placeholder="••••••••"
+                                className="h-12"
+                                autoComplete="new-password"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
 
-                        <Button
-                          type="submit"
-                          isLoading={isLoading}
-                          className="w-full"
-                        >
-                          Login
-                        </Button>
-                      </div>
+                      <Button
+                        type="submit"
+                        isLoading={isLoading}
+                        className="w-full h-12 font-medium mt-2"
+                      >
+                        Sign in
+                      </Button>
                     </form>
                   </Form>
+
+                  <div className="text-center">
+                    <p className="text-sm text-muted-foreground">
+                      Don't have an account?{" "}
+                      <Link
+                        href="/register"
+                        className="font-medium text-primary hover:text-primary/80 transition-colors underline-offset-4 hover:underline"
+                      >
+                        Create one now
+                      </Link>
+                    </p>
+                  </div>
                 </div>
               ) : (
                 <Login2FA authId={temp.authId} />
               )}
-
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.5 }}
-                className="mt-6 text-center"
-              >
-                <p className="text-sm text-muted-foreground">
-                  Don't have an account?{" "}
-                  <Link
-                    href="/register"
-                    className="font-medium text-primary hover:text-primary/80 transition-colors"
-                  >
-                    Create one now
-                  </Link>
-                </p>
-              </motion.div>
             </CardContent>
           </Card>
         </motion.div>
