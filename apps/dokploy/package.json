@@ -92,6 +92,7 @@
 		"dotenv": "16.4.5",
 		"drizzle-orm": "^0.30.8",
 		"drizzle-zod": "0.5.1",
+		"framer-motion": "^12.4.3",
 		"i18next": "^23.16.4",
 		"input-otp": "^1.2.4",
 		"js-cookie": "^3.0.5",

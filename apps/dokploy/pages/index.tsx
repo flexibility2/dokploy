@@ -31,6 +31,9 @@ import { z } from "zod";
 import Image from "next/image";
 import { useAccount, useConnect, useDisconnect } from "wagmi";
 import { injected } from "wagmi/connectors";
+import { motion, AnimatePresence } from "framer-motion";
+import { BackgroundBeams } from "@/components/ui/background-beams";
+import { Sparkles } from "lucide-react";
 
 const loginSchema = z.object({
   email: z
@@ -144,165 +147,209 @@ export default function Home({ IS_CLOUD }: Props) {
       });
   };
   return (
-    <div className="flex  h-screen w-full items-center justify-center ">
-      <div className="flex flex-col items-center gap-4 w-full">
-        <div className="flex flex-row items-center gap-2">
-          <Image
-            src="/TomCoinLogoV2.svg"
-            alt="TOM3 Logo"
-            width={32}
-            height={32}
-            priority
-          />
-          <span className="font-medium text-sm">TOM3 Console</span>
+    <div className="relative flex min-h-screen w-full items-center justify-center overflow-hidden bg-background/70 antialiased">
+      <BackgroundBeams />
+
+      <div className="absolute inset-0 w-full h-full bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_at_center,white,transparent_75%)] pointer-events-none" />
+
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="relative flex flex-col items-center gap-6 w-full z-10 px-4"
+      >
+        <motion.div
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{
+            type: "spring",
+            stiffness: 260,
+            damping: 20,
+          }}
+          className="flex flex-col items-center gap-2"
+        >
+          <div className="relative">
+            <Image
+              src="/TomCoinLogoV2.svg"
+              alt="TOM3 Logo"
+              width={48}
+              height={48}
+              priority
+              className="drop-shadow-lg"
+            />
+            <motion.div
+              animate={{
+                scale: [1, 1.2, 1],
+                rotate: [0, 5, -5, 0],
+              }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+                repeatType: "reverse",
+              }}
+              className="absolute -top-1 -right-1 w-3 h-3 bg-primary rounded-full"
+            />
+          </div>
+          <span className="font-medium text-lg bg-clip-text text-transparent bg-gradient-to-r from-gray-400 via-gray-600 to-gray-400">
+            TOM3 Console
+          </span>
+        </motion.div>
+
+        <div className="space-y-2 text-center">
+          <motion.h1
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary via-primary/80 to-primary/60"
+          >
+            Welcome Back
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3 }}
+            className="text-muted-foreground max-w-sm mx-auto"
+          >
+            Your gateway to seamless blockchain interactions and decentralized
+            management
+          </motion.p>
         </div>
-        <CardTitle className="text-2xl font-bold">Sign in</CardTitle>
-        <CardDescription>
-          Enter your credentials to access your account
-        </CardDescription>
-        <Card className="mx-auto w-full max-w-lg bg-transparent ">
-          <div className="p-3.5" />
-          {isError && (
-            <AlertBlock type="error" className="mx-4 my-2">
-              <span>{error?.message}</span>
-            </AlertBlock>
-          )}
 
-          <CardContent>
-            {!temp.is2FAEnabled ? (
-              <div className="flex flex-col gap-4">
-                {!isConnected ? (
-                  <Button
-                    onClick={handleConnect}
-                    variant="outline"
-                    className="w-full"
-                  >
-                    Connect Wallet to Sign in
-                  </Button>
-                ) : (
-                  <div className="flex flex-col gap-2">
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm">
-                        Connected: {address?.slice(0, 6)}...{address?.slice(-4)}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4 }}
+          className="w-full max-w-md"
+        >
+          <Card className="backdrop-blur-sm bg-background/50 border border-primary/10 shadow-lg">
+            <CardContent className="pt-6">
+              {!temp.is2FAEnabled ? (
+                <div className="flex flex-col gap-4">
+                  {!isConnected ? (
+                    <motion.div
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      <Button
+                        onClick={handleConnect}
+                        variant="outline"
+                        className="w-full relative overflow-hidden group"
+                      >
+                        <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-primary/10 opacity-0 group-hover:opacity-100 transition-opacity" />
+                        <Sparkles className="mr-2 h-4 w-4" />
+                        Connect Wallet to Sign in
+                      </Button>
+                    </motion.div>
+                  ) : (
+                    <div className="flex flex-col gap-2">
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm">
+                          Connected: {address?.slice(0, 6)}...
+                          {address?.slice(-4)}
+                        </span>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => disconnect()}
+                        >
+                          Disconnect
+                        </Button>
+                      </div>
+                      <Button onClick={handleWalletLogin} className="w-full">
+                        Sign in with Wallet
+                      </Button>
+                    </div>
+                  )}
+
+                  <div className="relative">
+                    <div className="absolute inset-0 flex items-center">
+                      <span className="w-full border-t" />
+                    </div>
+                    <div className="relative flex justify-center text-xs uppercase">
+                      <span className="bg-background px-2 text-muted-foreground">
+                        Or continue with email
                       </span>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => disconnect()}
-                      >
-                        Disconnect
-                      </Button>
                     </div>
-                    <Button onClick={handleWalletLogin} className="w-full">
-                      Sign in with Wallet
-                    </Button>
                   </div>
-                )}
 
-                <div className="relative">
-                  <div className="absolute inset-0 flex items-center">
-                    <span className="w-full border-t" />
-                  </div>
-                  <div className="relative flex justify-center text-xs uppercase">
-                    <span className="bg-background px-2 text-muted-foreground">
-                      Or continue with email
-                    </span>
-                  </div>
+                  <Form {...form}>
+                    <form
+                      onSubmit={form.handleSubmit(onSubmit)}
+                      className="grid gap-4"
+                      autoComplete="off"
+                    >
+                      <div className="space-y-4">
+                        <FormField
+                          control={form.control}
+                          name="email"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Email</FormLabel>
+                              <FormControl>
+                                <Input
+                                  placeholder="Email"
+                                  autoComplete="off"
+                                  {...field}
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        <FormField
+                          control={form.control}
+                          name="password"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Password</FormLabel>
+                              <FormControl>
+                                <Input
+                                  type="password"
+                                  placeholder="Password"
+                                  autoComplete="new-password"
+                                  {...field}
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+
+                        <Button
+                          type="submit"
+                          isLoading={isLoading}
+                          className="w-full"
+                        >
+                          Login
+                        </Button>
+                      </div>
+                    </form>
+                  </Form>
                 </div>
+              ) : (
+                <Login2FA authId={temp.authId} />
+              )}
 
-                <Form {...form}>
-                  <form
-                    onSubmit={form.handleSubmit(onSubmit)}
-                    className="grid gap-4"
-                    autoComplete="off"
-                  >
-                    <div className="space-y-4">
-                      <FormField
-                        control={form.control}
-                        name="email"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Email</FormLabel>
-                            <FormControl>
-                              <Input
-                                placeholder="Email"
-                                autoComplete="off"
-                                {...field}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={form.control}
-                        name="password"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Password</FormLabel>
-                            <FormControl>
-                              <Input
-                                type="password"
-                                placeholder="Password"
-                                autoComplete="new-password"
-                                {...field}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-
-                      <Button
-                        type="submit"
-                        isLoading={isLoading}
-                        className="w-full"
-                      >
-                        Login
-                      </Button>
-                    </div>
-                  </form>
-                </Form>
-              </div>
-            ) : (
-              <Login2FA authId={temp.authId} />
-            )}
-
-            <div className="flex flex-row justify-between flex-wrap">
-              <div className="mt-4 text-center text-sm flex flex-row justify-center gap-2">
-                {true && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.5 }}
+                className="mt-6 text-center"
+              >
+                <p className="text-sm text-muted-foreground">
+                  Don't have an account?{" "}
                   <Link
-                    className="hover:underline text-muted-foreground"
                     href="/register"
+                    className="font-medium text-primary hover:text-primary/80 transition-colors"
                   >
-                    Create an account
+                    Create one now
                   </Link>
-                )}
-              </div>
-
-              {/* <div className="mt-4 text-sm flex flex-row justify-center gap-2">
-								{IS_CLOUD ? (
-									<Link
-										className="hover:underline text-muted-foreground"
-										href="/send-reset-password"
-									>
-										Lost your password?
-									</Link>
-								) : (
-									<Link
-										className="hover:underline text-muted-foreground"
-										href="https://docs.dokploy.com/docs/core/reset-password"
-										target="_blank"
-									>
-										Lost your password?
-									</Link>
-								)}
-							</div> */}
-            </div>
-            <div className="p-2" />
-          </CardContent>
-        </Card>
-      </div>
+                </p>
+              </motion.div>
+            </CardContent>
+          </Card>
+        </motion.div>
+      </motion.div>
     </div>
   );
 }
