@@ -36,6 +36,10 @@ import { BackgroundBeams } from "@/components/ui/background-beams";
 import { Sparkles } from "lucide-react";
 import { TextScramble } from "@/components/ui/text-scramble";
 import { FloatingElements } from "@/components/ui/floating-elements";
+import { Shield, Zap, Workflow } from "lucide-react";
+import { FeatureCard } from "@/components/ui/feature-card";
+import { TestimonialCarousel } from "@/components/ui/testimonial-carousel";
+import { FAQSection } from "@/components/ui/faq-section";
 
 const loginSchema = z.object({
   email: z
@@ -149,18 +153,13 @@ export default function Home({ IS_CLOUD }: Props) {
       });
   };
   return (
-    <div className="relative flex min-h-screen w-full items-center justify-center overflow-hidden bg-background/70 antialiased">
+    <div className="relative min-h-screen w-full overflow-hidden bg-background/70 antialiased">
       <BackgroundBeams />
       <FloatingElements />
 
       <div className="absolute inset-0 w-full h-full bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_at_center,white,transparent_75%)] pointer-events-none" />
 
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="relative flex flex-col items-center gap-6 w-full z-10 px-4"
-      >
+      <div className="relative z-10 flex min-h-screen flex-col items-center justify-start container mx-auto px-4">
         <motion.div
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
@@ -169,7 +168,7 @@ export default function Home({ IS_CLOUD }: Props) {
             stiffness: 260,
             damping: 20,
           }}
-          className="flex flex-col items-center gap-2"
+          className="flex flex-col items-center gap-2 pt-16 mb-8"
         >
           <div className="relative group">
             <Image
@@ -200,7 +199,7 @@ export default function Home({ IS_CLOUD }: Props) {
           </motion.div>
         </motion.div>
 
-        <div className="space-y-4 text-center max-w-2xl">
+        <div className="space-y-4 text-center max-w-2xl mb-12">
           <motion.h1
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -248,8 +247,104 @@ export default function Home({ IS_CLOUD }: Props) {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5 }}
+          className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto px-4 mb-12"
+        >
+          <FeatureCard
+            icon={<Shield className="w-8 h-8" />}
+            title="Enterprise Security"
+            description="Bank-grade security protocols and multi-layer protection for your digital assets"
+          />
+          <FeatureCard
+            icon={<Zap className="w-8 h-8" />}
+            title="Lightning Fast"
+            description="Optimized performance with sub-second transaction processing"
+          />
+          <FeatureCard
+            icon={<Workflow className="w-8 h-8" />}
+            title="Smart Automation"
+            description="Powerful workflow automation tools to streamline your operations"
+          />
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.6 }}
+          className="w-full max-w-4xl mx-auto px-4 mb-12"
+        >
+          <p className="text-center text-sm text-muted-foreground mb-6">
+            TRUSTED BY INDUSTRY LEADERS
+          </p>
+          <div className="flex flex-wrap justify-center gap-8 opacity-50">
+            <div className="h-8 w-24 bg-muted/20 rounded-md animate-pulse" />
+            <div className="h-8 w-24 bg-muted/20 rounded-md animate-pulse" />
+            <div className="h-8 w-24 bg-muted/20 rounded-md animate-pulse" />
+            <div className="h-8 w-24 bg-muted/20 rounded-md animate-pulse" />
+          </div>
+        </motion.div>
+
+        <div className="flex flex-wrap justify-center gap-8 md:gap-12 py-8 text-center mb-12">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.7 }}
+            className="space-y-2"
+          >
+            <h3 className="text-4xl font-bold text-primary">$1B+</h3>
+            <p className="text-sm text-muted-foreground">Assets Managed</p>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.8 }}
+            className="space-y-2"
+          >
+            <h3 className="text-4xl font-bold text-primary">50K+</h3>
+            <p className="text-sm text-muted-foreground">Transactions</p>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.9 }}
+            className="space-y-2"
+          >
+            <h3 className="text-4xl font-bold text-primary">99.9%</h3>
+            <p className="text-sm text-muted-foreground">Uptime</p>
+          </motion.div>
+        </div>
+
+        {/* Testimonials */}
+        <div className="w-full py-16 mb-12">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold mb-4">
+              Trusted by Industry Leaders
+            </h2>
+            <p className="text-muted-foreground">
+              See what our users have to say
+            </p>
+          </div>
+          <TestimonialCarousel />
+        </div>
+
+        {/* FAQ Section */}
+        <div className="w-full py-16 mb-12">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold mb-4">
+              Frequently Asked Questions
+            </h2>
+            <p className="text-muted-foreground">
+              Everything you need to know about TOM3 Console
+            </p>
+          </div>
+          <FAQSection />
+        </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
-          className="w-full max-w-md relative"
+          className="w-full max-w-md relative mb-16"
         >
           <div className="absolute -inset-0.5 bg-gradient-to-r from-primary/30 to-blue-500/30 rounded-lg blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-tilt" />
 
@@ -391,7 +486,7 @@ export default function Home({ IS_CLOUD }: Props) {
             </CardContent>
           </Card>
         </motion.div>
-      </motion.div>
+      </div>
     </div>
   );
 }
