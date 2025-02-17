@@ -11,130 +11,142 @@ import { findServerById } from "./server";
 export type Domain = typeof domains.$inferSelect;
 
 export const createDomain = async (input: typeof apiCreateDomain._type) => {
-	const result = await db.transaction(async (tx) => {
-		const domain = await tx
-			.insert(domains)
-			.values({
-				...input,
-			})
-			.returning()
-			.then((response) => response[0]);
+  const result = await db.transaction(async (tx) => {
+    const domain = await tx
+      .insert(domains)
+      .values({
+        ...input,
+      })
+      .returning()
+      .then((response) => response[0]);
 
-		if (!domain) {
-			throw new TRPCError({
-				code: "BAD_REQUEST",
-				message: "Error creating domain",
-			});
-		}
+    if (!domain) {
+      throw new TRPCError({
+        code: "BAD_REQUEST",
+        message: "Error creating domain",
+      });
+    }
 
-		if (domain.applicationId) {
-			const application = await findApplicationById(domain.applicationId);
-			await manageDomain(application, domain);
-		}
+    if (domain.applicationId) {
+      const application = await findApplicationById(domain.applicationId);
+      await manageDomain(application, domain);
+    }
 
-		return domain;
-	});
+    return domain;
+  });
 
-	return result;
+  return result;
 };
 
 export const generateTraefikMeDomain = async (
-	appName: string,
-	adminId: string,
-	serverId?: string,
+  appName: string,
+  adminId: string,
+  serverId?: string
 ) => {
-	if (serverId) {
-		const server = await findServerById(serverId);
-		return generateRandomDomain({
-			serverIp: server.ipAddress,
-			projectName: appName,
-		});
-	}
+  const domain = generateRandomDomain({
+    serverIp: "",
+    projectName: appName,
+  });
+  // 添加调试日志
+  console.log("Generated Domain:", {
+    appName,
+    adminId,
+    serverId,
+    generatedDomain: domain,
+  });
+  return domain;
+  //   if (serverId) {
+  //     const server = await findServerById(serverId);
+  //     return generateRandomDomain({
+  //       serverIp: server.ipAddress,
+  //       projectName: appName,
+  //     });
+  //   }
 
-	if (process.env.NODE_ENV === "development") {
-		return generateRandomDomain({
-			serverIp: "",
-			projectName: appName,
-		});
-	}
-	const admin = await findAdminById(adminId);
-	return generateRandomDomain({
-		serverIp: admin?.serverIp || "",
-		projectName: appName,
-	});
+  //   if (process.env.NODE_ENV === "development") {
+  //     return generateRandomDomain({
+  //       serverIp: "",
+  //       projectName: appName,
+  //     });
+  //   }
+  //   const admin = await findAdminById(adminId);
+  //   return generateRandomDomain({
+  //     serverIp: admin?.serverIp || "",
+  //     projectName: appName,
+  //   });
 };
 
 export const generateWildcardDomain = (
-	appName: string,
-	serverDomain: string,
+  appName: string,
+  serverDomain: string
 ) => {
-	return `${appName}-${serverDomain}`;
+  return `${appName}-${serverDomain}`;
 };
 
 export const findDomainById = async (domainId: string) => {
-	const domain = await db.query.domains.findFirst({
-		where: eq(domains.domainId, domainId),
-		with: {
-			application: true,
-		},
-	});
-	if (!domain) {
-		throw new TRPCError({
-			code: "NOT_FOUND",
-			message: "Domain not found",
-		});
-	}
-	return domain;
+  const domain = await db.query.domains.findFirst({
+    where: eq(domains.domainId, domainId),
+    with: {
+      application: true,
+    },
+  });
+  if (!domain) {
+    throw new TRPCError({
+      code: "NOT_FOUND",
+      message: "Domain not found",
+    });
+  }
+  return domain;
 };
 
 export const findDomainsByApplicationId = async (applicationId: string) => {
-	const domainsArray = await db.query.domains.findMany({
-		where: eq(domains.applicationId, applicationId),
-		with: {
-			application: true,
-		},
-	});
+  const domainsArray = await db.query.domains.findMany({
+    where: eq(domains.applicationId, applicationId),
+    with: {
+      application: true,
+    },
+  });
 
-	return domainsArray;
+  return domainsArray;
 };
 
 export const findDomainsByComposeId = async (composeId: string) => {
-	const domainsArray = await db.query.domains.findMany({
-		where: eq(domains.composeId, composeId),
-		with: {
-			compose: true,
-		},
-	});
+  const domainsArray = await db.query.domains.findMany({
+    where: eq(domains.composeId, composeId),
+    with: {
+      compose: true,
+    },
+  });
 
-	return domainsArray;
+  return domainsArray;
 };
 
 export const updateDomainById = async (
-	domainId: string,
-	domainData: Partial<Domain>,
+  domainId: string,
+  domainData: Partial<Domain>
 ) => {
-	const domain = await db
-		.update(domains)
-		.set({
-			...domainData,
-		})
-		.where(eq(domains.domainId, domainId))
-		.returning();
+  const domain = await db
+    .update(domains)
+    .set({
+      ...domainData,
+    })
+    .where(eq(domains.domainId, domainId))
+    .returning();
 
-	return domain[0];
+  return domain[0];
 };
 
 export const removeDomainById = async (domainId: string) => {
-	await findDomainById(domainId);
-	// TODO: fix order
-	const result = await db
-		.delete(domains)
-		.where(eq(domains.domainId, domainId))
-		.returning();
+  await findDomainById(domainId);
+  // TODO: fix order
+  const result = await db
+    .delete(domains)
+    .where(eq(domains.domainId, domainId))
+    .returning();
 
-	return result[0];
+  return result[0];
 };
 
 export const getDomainHost = (domain: Domain) => {
-	return `${domain.https ? "https" : "http"}://${domain.host}`;
+  return `${domain.https ? "https" : "http"}://${domain.host}`;
 };

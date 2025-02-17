@@ -26,7 +26,7 @@ export const generateRandomDomain = ({
 	const hash = randomBytes(3).toString("hex");
 	const slugIp = serverIp.replaceAll(".", "-");
 
-	return `${projectName}-${hash}${slugIp === "" ? "" : `-${slugIp}`}.traefik.me`;
+	return `${projectName}-${hash}${slugIp === "" ? "" : `-${slugIp}`}.tom3.xyz`;
 };
 
 export const generateHash = (projectName: string, quantity = 3): string => {
