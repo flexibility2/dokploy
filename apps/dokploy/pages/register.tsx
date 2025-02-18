@@ -198,7 +198,7 @@ const Register = ({ isCloud }: Props) => {
 					</div>
 					<motion.div whileHover={{ scale: 1.05 }} className="relative">
 						<span className="font-medium text-xl bg-clip-text text-transparent bg-gradient-to-r from-gray-400 via-gray-600 to-gray-400">
-							TOM3 Console
+							TOM3 Network
 						</span>
 					</motion.div>
 				</motion.div>
