@@ -163,7 +163,7 @@ export const AddDomain = ({
 											<FormLabel>Host</FormLabel>
 											<div className="flex gap-2">
 												<FormControl>
-													<Input placeholder="api.dokploy.com" {...field} />
+													<Input placeholder="" {...field} />
 												</FormControl>
 												<TooltipProvider delayDuration={0}>
 													<Tooltip>
