@@ -295,8 +295,8 @@ export default function Home({ IS_CLOUD }: Props) {
             transition={{ delay: 0.7 }}
             className="space-y-2"
           >
-            <h3 className="text-4xl font-bold text-primary">$1B+</h3>
-            <p className="text-sm text-muted-foreground">Assets Managed</p>
+            <h3 className="text-4xl font-bold text-primary">5ms</h3>
+            <p className="text-sm text-muted-foreground">Response Time</p>
           </motion.div>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -304,8 +304,8 @@ export default function Home({ IS_CLOUD }: Props) {
             transition={{ delay: 0.8 }}
             className="space-y-2"
           >
-            <h3 className="text-4xl font-bold text-primary">50K+</h3>
-            <p className="text-sm text-muted-foreground">Transactions</p>
+            <h3 className="text-4xl font-bold text-primary">24/7</h3>
+            <p className="text-sm text-muted-foreground">Support</p>
           </motion.div>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
